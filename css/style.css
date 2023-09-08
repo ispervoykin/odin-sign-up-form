@@ -1,45 +1,50 @@
 @import "reset.css";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto:wght@300&display=swap');
 @font-face {
-    font-family: fujimaru;
+    font-family: Fujimaru;
     src: url(../assets/Fujimaru-Regular.ttf);
 }
 
 :root {
     --right-side-margin-left: 3rem;
+    --default-text-font-size: 1.25rem;
 }
 
 body {
     display: flex;
     height: 100vh;
+    font-family: 'Open Sans', sans-serif;
 }
 
 .banner {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    width: 35vw;
+    min-height: 100vh;
+    min-width: 35vw;
     background-image: url(../assets/banner-picture.jpg);
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .banner > div {
     display: flex;
     justify-content: center;
-    align-items: center;
     margin-top: 30%;
     background-color: rgba(255, 255, 255, 0.2);
 }
 
 #caption {
     color: white;
-    font-family: fujimaru;
+    font-family: Fujimaru;
     font-size: 6rem;
 }
 
 #photo-credit {
-    align-self: flex-start;
-    margin-top: 96%;
     font-size: 0.8rem;
+    position: absolute;
+    bottom: 0px;
 }
 
 .banner img {
@@ -48,35 +53,77 @@ body {
 }
 
 .right-side {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    width: 65vw;
-    justify-content: center;
-    background-color: rgb(248, 248, 248);
+    min-width: 65vw;
+    min-height: 100vh;
+    background-color: #FFF0F5;
+    overflow: auto;
 }
 
 .right-side > * {
-    margin-bottom: 5rem;
+    margin-bottom: 3rem;
+    margin-left: var(--right-side-margin-left);
 }
 
 .sign-up-text {
-    margin-left: var(--right-side-margin-left);
-    width: 72ch;
-    font-size: 1.25rem;
+    max-width: 74ch;
+    font-size: calc(var(--default-text-font-size) + 0.125rem);
+    margin-top: 2rem;
+    line-height: 1.6rem;
+    text-shadow: 1px 1px 2px pink;
+}
+
+.right-side > form {
+    margin-left: 0;
 }
 
 .form-box {
-    background-color: white;
-    padding: 2rem 10rem 2rem var(--right-side-margin-left);
-}
-
-.form-box form {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 4rem;
+    background-color: white;
+    padding: 1.5rem 10rem 1.5rem var(--right-side-margin-left);;
 }
 
 .form-box div {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
+}
+
+form * {
+    font-size: var(--default-text-font-size);
+}
+
+form input {
+    height: 2rem;
+    width: 15rem;
+}
+
+.cr-acc-button {
+    margin-left: calc(var(--right-side-margin-left) - 0.5rem);
+    margin-top: 1.5rem;
+    border-radius: 20px;
+    font-size: 1rem;
+    width: 16rem;
+    height: 3rem;
+    background-color: #FFD1DA;
+    font-size: var(--default-text-font-size);
+}
+
+#have-account {
+    margin-top: -1.5rem;
+    font-size: var(--default-text-font-size);
+    text-shadow: 1px 1px 2px pink;
+}
+
+#have-account > a {
+    color: #ff5882;
+}
+
+.error-message {
+    color: rgb(255, 36, 36);
+    font-size: calc(var(--default-text-font-size) - 0.25rem);
 }
