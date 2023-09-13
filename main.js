@@ -11,6 +11,24 @@ function processInput(element, regexRequirement) {
     }
 }
 
+function checkPasswordMatching(password, confirmPassword) {
+    let confirmPasswordDiv = document.querySelector('.confirm-password');
+    if (password.value != confirmPassword.value) {
+        if (!document.querySelector('.passwords-do-not-match-div')) {
+            let errorDiv = document.createElement('div');
+            errorDiv.classList.add('passwords-do-not-match-div', 'invalid');
+            errorDiv.textContent = 'Passwords do not match';
+            confirmPasswordDiv.appendChild(errorDiv);
+        }
+        confirmPassword.classList.remove('valid');
+        confirmPassword.classList.add('invalid');
+    } else if (document.querySelector('.passwords-do-not-match-div')) {
+        confirmPasswordDiv.removeChild(document.querySelector('.passwords-do-not-match-div'));
+        confirmPassword.classList.remove('invalid');
+        confirmPassword.classList.add('valid');
+    }
+}
+
 let requiredData = {
     firstName: document.querySelector("#first_name"),
     email: document.querySelector('#email'),
@@ -61,39 +79,26 @@ optionalData.phoneNumber.addEventListener('keyup', () => {
     }
 });
 
-for (let pwd of [requiredData.password, requiredData.confirmPassword]) {
-    pwd.addEventListener('keyup', () => {
-        processInput(pwd, /[a-zA-Z0-9\-\!\@\#\$\%\^\&]{8,}/);
-        console.log(requiredData.password.value, requiredData.confirmPassword.value);
-        if (pwd == requiredData.confirmPassword) {
-            if (requiredData.confirmPassword.value != requiredData.password.value) {
-                if (!document.querySelector('.pwds-not-matching-div')) {
-                    let errorDiv = document.createElement('div');
-                    errorDiv.classList.add('pwds-not-matching-div', 'invalid');
-                    errorDiv.textContent = 'Passwords do not match';
-                    document.querySelector('.confirm-password').appendChild(errorDiv);
-                }
-                pwd.classList.remove('valid');
-                pwd.classList.add('invalid');
-            } else {
-                if (document.querySelector('.pwds-not-matching-div')) {
-                    document.querySelector('.confirm-password').removeChild(document.querySelector('.pwds-not-matching-div'));
-                }
-            }
-        } else {
-            if (pwd.value.length < 8) {
-                    if (!document.querySelector('.invalid-length-div')) {
-                        let errorDiv = document.createElement('div');
-                        errorDiv.classList.add('invalid-length-div', 'invalid');
-                        errorDiv.textContent = 'Password is too short';
-                        document.querySelector('.password').appendChild(errorDiv);
-                    }
-            } else if (document.querySelector('.invalid-length-div')) {
-                    document.querySelector('.password').removeChild(document.querySelector('.invalid-length-div'));
-            }
+requiredData.password.addEventListener('keyup', () => {
+    let pwd = requiredData.password;
+    processInput(pwd, /[a-zA-Z0-9\-\!\@\#\$\%\^\&]{8,}/);
+    if (pwd.value.length < 8) {
+        if (!document.querySelector('.invalid-length-div')) {
+            let errorDiv = document.createElement('div');
+            errorDiv.classList.add('invalid-length-div', 'invalid');
+            errorDiv.textContent = 'Password is too short';
+            document.querySelector('.password').appendChild(errorDiv);
         }
-    });
-}
+    } else if (document.querySelector('.invalid-length-div')) {
+        document.querySelector('.password').removeChild(document.querySelector('.invalid-length-div'));
+    }
+    checkPasswordMatching(requiredData.password, requiredData.confirmPassword);
+});
+requiredData.confirmPassword.addEventListener('keyup', () => {
+    processInput(requiredData.confirmPassword, /[a-zA-Z0-9\-\!\@\#\$\%\^\&]{8,}/);
+    checkPasswordMatching(requiredData.password, requiredData.confirmPassword);
+});
+
 
 let form = document.querySelector("#signup-form");
 let submitButton = document.querySelector(".submit-button");
